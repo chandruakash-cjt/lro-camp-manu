@@ -1,0 +1,1574 @@
+<!doctype html>
+<html lang="ta">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>சட்ட உரிமைகள் கழகம்: முகாம் மனு</title>
+<link rel="icon" id="favicon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400;700&family=Noto+Serif+Tamil:wght@700&display=swap">
+<style>
+:root{
+  --paper:#ffffff;
+  --ink:#000000;
+  --text:#1a1a1a;
+  --muted:#5c5c5c;
+  --line:#d4d4d4;
+  --field-line:#8c8c8c;
+  --soft:#f2f2f2;
+  --red:#e00000;
+  --red-deep:#b30000;
+  --red-tint:#fdeeee;
+  --grey-print:#555555;
+  --sans:'Noto Sans Tamil','Tamil Sangam MN','Nirmala UI','Latha',sans-serif;
+  --serif:'Noto Serif Tamil','Tamil Sangam MN','Nirmala UI','Latha',serif;
+  --tap:56px;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--text);font-family:var(--sans);font-size:18px;line-height:1.6;overflow-wrap:anywhere}
+h2,h3,p,ul{margin:0}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer;touch-action:manipulation}
+:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+
+.app-head{display:flex;align-items:center;gap:12px;padding:10px 16px;border-bottom:1.6pt solid var(--red)}
+.app-head img{width:38px;height:auto;display:block;flex:none}
+.app-head b{font-family:var(--serif);font-weight:700;font-size:21px;line-height:1.25;color:var(--red)}
+main{max-width:620px;margin:0 auto;padding:20px 16px 40px}
+main.wide{max-width:calc(210mm + 32px)}
+.screen{display:flex;flex-direction:column;gap:18px}
+.screen>h2{font-size:24px;line-height:1.35;font-weight:700;color:var(--ink)}
+.muted{color:var(--muted);font-size:16px}
+
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:var(--tap);padding:10px 18px;border:2px solid var(--ink);border-radius:10px;background:var(--paper);color:var(--ink);font-weight:700;text-align:center;line-height:1.35}
+.btn.primary{background:var(--red);border-color:var(--red);color:var(--paper)}
+.btn:active{transform:translateY(1px)}
+.btn[disabled]{opacity:.55;cursor:default}
+.btn.quiet{border-color:var(--line);font-weight:400}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px}
+.btn-row .btn{flex:1 1 200px;width:auto}
+
+label.f{display:flex;flex-direction:column;gap:4px;font-weight:700;color:var(--ink)}
+label.f input,label.f textarea{width:100%;min-height:var(--tap);padding:11px 12px;border:1.5px solid var(--field-line);border-radius:8px;background:var(--paper);font-weight:400;font-size:18px;line-height:1.6;color:var(--ink)}
+label.f textarea{display:block;resize:none;overflow:hidden}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.two>*{min-width:0}
+
+.pin-input{letter-spacing:.2em;font-size:26px!important;text-align:center}
+.err{color:var(--red-deep);font-weight:700}
+
+/* Record */
+.stage{display:flex;flex-direction:column;align-items:center;gap:20px;padding:10px 0}
+.rec-btn{display:flex;align-items:center;justify-content:center;width:min(66vw,230px);height:min(66vw,230px);padding:18px;border:0;border-radius:50%;background:var(--red);color:var(--paper);font-size:26px;font-weight:700;line-height:1.3}
+.rec-btn[disabled]{opacity:.6}
+.stop-btn{display:flex;align-items:center;justify-content:center;width:min(52vw,180px);height:min(52vw,180px);border:0;border-radius:18px;background:var(--ink);color:var(--paper);font-size:26px;font-weight:700}
+.timer{font-size:clamp(64px,19vw,92px);line-height:1.05;font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink);display:flex;align-items:center;gap:14px}
+.dot{width:20px;height:20px;border-radius:50%;background:var(--red);flex:none;animation:beat 1.4s ease-in-out infinite}
+.frozen .dot{animation:none;background:var(--line)}
+@keyframes beat{50%{opacity:.25}}
+.meter-wrap{width:100%;max-width:440px;display:flex;flex-direction:column;gap:6px}
+.meter{height:22px;background:var(--soft);border:1px solid var(--line);border-radius:4px;overflow:hidden}
+.meter i{display:block;height:100%;width:0;background:var(--red);transition:width .1s linear}
+.silent{color:var(--red-deep);font-weight:700;text-align:center;min-height:1.6em}
+
+.alarm{display:flex;flex-direction:column;gap:12px;padding:18px 16px;background:var(--red);color:var(--paper);border-radius:10px}
+.alarm h3{font-size:26px;line-height:1.3;font-weight:700}
+.alarm p{font-size:19px;line-height:1.5}
+.alarm .btn{background:var(--paper);border-color:var(--paper);color:var(--ink)}
+.alarm .btn.ghost{background:transparent;color:var(--paper)}
+
+.warnbox{padding:14px;background:var(--red-tint);border:2px solid var(--red);border-radius:10px;color:var(--ink)}
+.warnbox h3{font-size:19px;font-weight:700;color:var(--red-deep);margin-bottom:4px}
+.warnbox ul{padding-left:20px}
+.note{padding:12px 14px;background:var(--soft);border-radius:8px;font-size:16px}
+.card{display:flex;flex-direction:column;gap:10px;padding:14px;border:2px solid var(--ink);border-radius:10px}
+.card b{color:var(--ink)}
+
+/* Processing */
+.watch{font-size:clamp(64px,19vw,92px);font-weight:700;font-variant-numeric:tabular-nums;line-height:1.05;text-align:center;color:var(--ink);padding-top:34px}
+.watch small{font-size:24px;font-weight:400}
+.status{text-align:center}
+
+/* Review */
+.time{font-weight:700;color:var(--ink)}
+audio{display:block;width:100%;max-width:100%}
+.stick{position:sticky;bottom:0;background:var(--paper);padding:10px 0 calc(10px + env(safe-area-inset-bottom));border-top:1px solid var(--line)}
+
+/* Letter: identical box on screen and in print */
+.letter{font-family:var(--sans);font-size:12.5pt;line-height:1.7;color:var(--ink);background:var(--paper);orphans:2;widows:2;-webkit-print-color-adjust:exact;print-color-adjust:exact;text-align:left;overflow-wrap:anywhere}
+.lh-row{display:grid;grid-template-columns:22mm minmax(0,1fr) 22mm;align-items:center}
+.lh-logo{display:block;width:22mm;height:auto;aspect-ratio:300/325}
+.lh-text{text-align:center}
+.lh-name{font-family:var(--serif);font-weight:700;font-size:24pt;line-height:1.3;color:var(--red);white-space:nowrap}
+.lh-en{font-weight:700;font-size:10.5pt;line-height:1.4;letter-spacing:.09em}
+.lh-reg{font-size:9.5pt;line-height:1.4;color:var(--grey-print)}
+.lh-lines{margin-top:2.6mm;text-align:center;font-size:9pt;line-height:1.55;color:var(--grey-print)}
+.lh-motto{margin-top:.6mm;text-align:center;font-weight:700;font-size:9.5pt;line-height:1.5;color:var(--red)}
+.lh-rule{height:0;margin:1.8mm 0 7mm;border:0;border-top:1.6pt solid var(--red)}
+.lt-parties{display:flex;justify-content:space-between;gap:6mm;margin-bottom:4.5mm;break-inside:avoid;page-break-inside:avoid}
+.lt-from{flex:1 1 auto;min-width:0}
+.lt-to{flex:0 0 66mm;width:66mm}
+.lt-h{font-weight:700}
+.lt-ind{padding-left:6mm}
+.lt-req{margin:0 0 4.5mm}
+.lt-detail{margin:0 0 1.5mm;break-after:avoid;page-break-after:avoid}
+.lt-p{margin:0 0 2.8mm;white-space:pre-wrap}
+.lt-p.joined{margin-bottom:0}
+.lt-keep{break-inside:avoid;page-break-inside:avoid}
+.lt-sig{padding-top:5mm;break-inside:avoid;page-break-inside:avoid}
+.lt-small{font-size:10pt;line-height:1.5}
+.lt-gap{height:19mm}
+.lt-line{width:72mm;border-top:.8pt solid var(--ink)}
+.lt-signame{font-weight:700;line-height:1.45;padding-top:.8mm}
+
+#sheetWrap{width:100%;max-width:210mm;margin:0 auto;overflow:hidden;border:1px solid var(--line)}
+#letter{width:210mm;min-height:297mm;padding:12mm 20mm 17mm;transform-origin:top left;transform:scale(var(--s,1))}
+#measureBox{position:fixed;left:0;top:0;width:0;height:0;overflow:hidden;visibility:hidden}
+#measure{width:170mm;padding:0}
+
+@page{size:A4;margin:12mm 20mm 17mm 20mm}
+@media print{
+  html,body{margin:0;padding:0;background:var(--paper);font-size:12.5pt}
+  .no-print,.app-head,#measureBox,.screen:not(#s-letter){display:none!important}
+  main,main.wide{max-width:none;margin:0;padding:0}
+  .screen{display:block}
+  #sheetWrap{max-width:none;margin:0;border:0;overflow:visible;height:auto!important}
+  #letter{width:auto;min-height:0;padding:0;transform:none!important}
+}
+@media (prefers-reduced-motion:reduce){
+  .dot{animation:none}
+  .meter i{transition:none}
+}
+@media (max-width:380px){
+  .two{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="app-head">
+  <img id="headLogo" alt="" width="38" height="41">
+  <b>சட்ட உரிமைகள் கழகம்</b>
+</header>
+
+<main id="main">
+
+  <section id="s-pin" class="screen" hidden>
+    <h2>PIN எண்</h2>
+    <p id="pinMsg" class="err" hidden></p>
+    <form id="pinForm" class="screen">
+      <label class="f">முகாம் PIN எண்ணை உள்ளிடுங்கள்
+        <input id="pinInput" class="pin-input" type="password" inputmode="numeric" autocomplete="off" required>
+      </label>
+      <button class="btn primary" type="submit">தொடங்கு</button>
+    </form>
+  </section>
+
+  <section id="s-record" class="screen" hidden>
+    <div id="recoverBox" class="screen" hidden></div>
+    <div id="alarm" class="alarm" role="alert" hidden>
+      <h3 id="alarmTitle"></h3>
+      <p id="alarmBody"></p>
+      <button id="btnContinue" class="btn" type="button">பதிவைத் தொடர்</button>
+      <button id="btnFinish" class="btn ghost" type="button">முடித்து அனுப்பு</button>
+    </div>
+    <p id="storageNote" class="warnbox" hidden>இந்த உலாவியில் பாதுகாப்புச் சேமிப்பு வேலை செய்யவில்லை. பதிவு இந்தப் பக்கத்தில் மட்டும் உள்ளது. அனுப்பி முடியும் வரை பக்கத்தை மூடாதீர்கள்.</p>
+    <p id="recMsg" class="warnbox" hidden></p>
+
+    <div id="idle" class="stage">
+      <h2 class="status">பெயர், ஊர், பிரச்சனையைச் சொல்லச் சொல்லுங்கள்</h2>
+      <button id="btnRecord" class="rec-btn" type="button">பதிவு தொடங்கு</button>
+      <button id="btnFile" class="btn" type="button">audio file ஏற்று</button>
+      <input id="fileInput" type="file" accept="audio/*,.opus,.ogg,.oga,.m4a,.mp3,.wav,.webm,.aac,.flac" hidden>
+    </div>
+
+    <div id="live" class="stage" hidden>
+      <div id="timer" class="timer" role="timer"><span class="dot"></span><span id="timerText">00:00</span></div>
+      <div class="meter-wrap">
+        <div class="meter" aria-hidden="true"><i id="meterBar"></i></div>
+        <p id="silentHint" class="silent"></p>
+      </div>
+      <button id="btnStop" class="stop-btn" type="button">நிறுத்து</button>
+      <p class="muted status">பதிவின்போது திரையை அணைக்காதீர்கள், வேறு செயலிக்குப் போகாதீர்கள்.</p>
+    </div>
+  </section>
+
+  <section id="s-processing" class="screen" hidden>
+    <div id="pWorking">
+      <p class="watch" role="timer"><span id="pWatch">0.0</span> <small>நொடி</small></p>
+      <p id="pStatus" class="status" aria-live="polite"></p>
+    </div>
+    <div id="pError" class="screen" hidden>
+      <div class="alarm" role="alert">
+        <h3>அனுப்ப முடியவில்லை</h3>
+        <p id="pErrorText"></p>
+        <p>பதிவு பாதுகாப்பாக உள்ளது. எதுவும் அழியவில்லை.</p>
+        <button id="btnRetry" class="btn" type="button">மறுபடி அனுப்பு</button>
+      </div>
+      <audio id="errPlayer" controls preload="metadata"></audio>
+      <div class="btn-row">
+        <button id="btnLater" class="btn" type="button">பிறகு அனுப்பு</button>
+        <button id="btnDownload" class="btn" type="button">audio-வைப் பதிவிறக்கு</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="s-review" class="screen" hidden>
+    <h2>மனுவைச் சரிபாருங்கள்</h2>
+    <p id="rvTime" class="time"></p>
+    <div id="rvDoubts" class="warnbox" role="alert" hidden>
+      <h3>கவனிக்க வேண்டியவை</h3>
+      <ul id="rvDoubtList"></ul>
+    </div>
+    <div id="rvOver" class="warnbox" role="alert" hidden>
+      <h3 id="rvOverTitle"></h3>
+      <p>இரண்டு பக்கத்துக்குள் வரும்படி விவரத்தைச் சுருக்குங்கள்.</p>
+    </div>
+    <p id="rvSavedNote" class="note" hidden></p>
+    <audio id="player" controls preload="metadata"></audio>
+    <label class="f">பெயர்<input id="fName" type="text" autocomplete="off"></label>
+    <div class="two">
+      <label class="f">ஊர்<input id="fOoru" type="text" autocomplete="off"></label>
+      <label class="f">கைபேசி<input id="fPhone" type="text" inputmode="tel" autocomplete="off"></label>
+      <label class="f">நாள்<input id="fDate" type="text" inputmode="numeric" autocomplete="off"></label>
+      <label class="f">இடம்<input id="fIdam" type="text" autocomplete="off"></label>
+    </div>
+    <div id="rvParas" class="screen"></div>
+    <div class="stick">
+      <p id="rvPages" class="muted"></p>
+      <button id="btnPreview" class="btn primary" type="button">மனுவைப் பார்</button>
+    </div>
+  </section>
+
+  <section id="s-letter" class="screen" hidden>
+    <div class="no-print screen">
+      <div id="lOver" class="warnbox" role="alert" hidden></div>
+      <p id="lSaved" class="note" aria-live="polite" hidden></p>
+      <div id="lSaveFail" class="warnbox" role="alert" hidden>
+        <h3>சேமிக்க முடியவில்லை</h3>
+        <p id="lSaveFailText"></p>
+        <div class="btn-row" style="margin-top:10px">
+          <button id="btnSaveRetry" class="btn" type="button">மறுபடி சேமி</button>
+          <button id="btnPrintAnyway" class="btn" type="button">சேமிக்காமல் அச்சிடு</button>
+        </div>
+      </div>
+      <button id="btnPrint" class="btn primary" type="button">அச்சிடு / PDF</button>
+      <button id="btnPrintNoWait" class="btn" type="button" hidden>சேமிப்புக்குக் காத்திராமல் அச்சிடு</button>
+      <div class="btn-row">
+        <button id="btnEdit" class="btn" type="button">திருத்து</button>
+        <button id="btnNew" class="btn" type="button">புதிய மனு</button>
+      </div>
+    </div>
+    <div id="sheetWrap"><article id="letter" class="letter"></article></div>
+  </section>
+
+</main>
+
+<div id="measureBox" aria-hidden="true"><div id="measure" class="letter"></div></div>
+
+<template id="tplHead">
+  <div class="lh-row">
+    <img class="lh-logo" alt="LRO" width="300" height="325">
+    <div class="lh-text">
+      <div class="lh-name">சட்ட உரிமைகள் கழகம்</div>
+      <div class="lh-en">LEGAL RIGHTS ORGANISATION</div>
+      <div class="lh-reg">பதிவு எண்: 14/2025</div>
+    </div>
+    <div></div>
+  </div>
+  <div class="lh-lines">
+    <div>தலைமை அலுவலகம்: 51/16A, சீலோன் காலனி, 2 வது தெரு, முனியசாமி புரம், தூத்துக்குடி – 628 003</div>
+    <div>தொடர்புக்கு: 9280098405&nbsp;&nbsp;|&nbsp;&nbsp;Instagram: @legal_rights_organisation</div>
+  </div>
+  <div class="lh-motto">சமத்துவம், சகோதரத்துவம், சாதனை — "சட்டமே மேலானது!"</div>
+  <hr class="lh-rule">
+</template>
+
+<script>
+const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyTlbPOsx09q2WQvatyd1M7nOjJMtRUHAqlU6vwWkiPjMg8Ni-KvG11-BExvQlBRFpx/exec';
+
+const LOGO = 'data:image/png;base64,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';
+
+(function () {
+  'use strict';
+
+  // Must stay above 6 minutes: a long Gemini run must never be cut by the client.
+  const NET_TIMEOUT_MS = 7 * 60 * 1000;
+  const PIN_KEY = 'lro-camp-pin';
+  const DB_NAME = 'lro-camp-audio';
+  const LAST_LINES_KEPT = 3;   // lines of the last paragraph that stay with the signature
+  const SHORT_LAST_PARA = 5;   // a last paragraph this short moves whole
+  const PAGE_MM = 297 - 12 - 17;
+  const MAX_PAGES = 2;
+
+  const $ = id => document.getElementById(id);
+  const wait = ms => new Promise(r => setTimeout(r, ms));
+  const pad = n => String(n).padStart(2, '0');
+  const mmss = sec => pad(Math.floor(sec / 60)) + ':' + pad(Math.floor(sec % 60));
+  const baseMime = t => String(t || '').split(';')[0].trim().toLowerCase();
+
+  function todayStr(d) {
+    d = d || new Date();
+    return pad(d.getDate()) + '.' + pad(d.getMonth() + 1) + '.' + d.getFullYear();
+  }
+
+  function setText(id, t) { $(id).textContent = t; }
+  function show(id, on) { $(id).hidden = !on; }
+
+  const SCREENS = ['s-pin', 's-record', 's-processing', 's-review', 's-letter'];
+  function goto(id) {
+    SCREENS.forEach(s => show(s, s === id));
+    $('main').classList.toggle('wide', id === 's-letter');
+    window.scrollTo(0, 0);
+  }
+
+  /* ---------- PIN ---------- */
+
+  let pinMemory = '';
+  let afterPin = null;
+
+  function getPin() {
+    if (pinMemory) return pinMemory;
+    try { pinMemory = localStorage.getItem(PIN_KEY) || ''; } catch (e) { /* private mode */ }
+    return pinMemory;
+  }
+  function setPin(p) {
+    pinMemory = p;
+    try { localStorage.setItem(PIN_KEY, p); } catch (e) { /* private mode */ }
+  }
+  function clearPin() {
+    pinMemory = '';
+    try { localStorage.removeItem(PIN_KEY); } catch (e) { /* private mode */ }
+  }
+
+  function askPin(message, then) {
+    afterPin = then || null;
+    $('pinInput').value = '';
+    setText('pinMsg', message || '');
+    show('pinMsg', !!message);
+    goto('s-pin');
+    $('pinInput').focus();
+  }
+
+  $('pinForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const p = $('pinInput').value.trim();
+    if (!p) return;
+    setPin(p);
+    const next = afterPin;
+    afterPin = null;
+    if (next) next(); else gotoRecord();
+  });
+
+  /* ---------- Audio storage: IndexedDB with a memory copy ---------- */
+
+  // Every chunk also stays in memory for this page's life, so a failed
+  // IndexedDB write costs nothing unless the page itself dies too.
+  const mem = new Map();
+  let dbPromise = null;
+
+  function openDb() {
+    if (dbPromise) return dbPromise;
+    dbPromise = new Promise((resolve, reject) => {
+      if (!window.indexedDB) { reject(new Error('no indexedDB')); return; }
+      const guard = setTimeout(() => reject(new Error('indexedDB open timed out')), 5000);
+      let rq;
+      try { rq = indexedDB.open(DB_NAME, 1); } catch (e) { clearTimeout(guard); reject(e); return; }
+      rq.onupgradeneeded = () => {
+        const db = rq.result;
+        db.createObjectStore('sessions', { keyPath: 'id' });
+        db.createObjectStore('chunks', { keyPath: ['sid', 'seg', 'seq'] });
+      };
+      rq.onsuccess = () => { clearTimeout(guard); resolve(rq.result); };
+      rq.onerror = () => { clearTimeout(guard); reject(rq.error); };
+    });
+    return dbPromise;
+  }
+
+  function txDone(t) {
+    return new Promise((resolve, reject) => {
+      t.oncomplete = () => resolve();
+      t.onerror = () => reject(t.error);
+      t.onabort = () => reject(t.error || new Error('aborted'));
+    });
+  }
+
+  const chunkRange = sid => IDBKeyRange.bound([sid], [sid, []]);
+
+  function noteStorageProblem() { show('storageNote', true); }
+
+  async function persistChunk(meta, seg, seq, blob) {
+    try {
+      // ArrayBuffer rather than Blob: older Safari fails to store Blobs.
+      const buf = await blob.arrayBuffer();
+      const db = await openDb();
+      const t = db.transaction(['chunks', 'sessions'], 'readwrite');
+      t.objectStore('chunks').put({ sid: meta.id, seg, seq, buf });
+      t.objectStore('sessions').put(meta);
+      await txDone(t);
+    } catch (e) {
+      noteStorageProblem();
+    }
+  }
+
+  async function persistMeta(meta) {
+    try {
+      const db = await openDb();
+      const t = db.transaction('sessions', 'readwrite');
+      t.objectStore('sessions').put(meta);
+      await txDone(t);
+    } catch (e) { /* the memory copy still holds it */ }
+  }
+
+  async function listSessions() {
+    const found = new Map();
+    try {
+      const db = await openDb();
+      const t = db.transaction('sessions', 'readonly');
+      const rq = t.objectStore('sessions').getAll();
+      await txDone(t);
+      (rq.result || []).forEach(m => found.set(m.id, m));
+    } catch (e) { /* memory list below */ }
+    mem.forEach((v, id) => found.set(id, v.meta));
+    return [...found.values()].sort((a, b) => b.startedAt - a.startedAt);
+  }
+
+  async function loadChunks(meta) {
+    const held = mem.get(meta.id);
+    if (held && held.chunks.length) {
+      return held.chunks.slice().sort((a, b) => a.seg - b.seg || a.seq - b.seq);
+    }
+    const db = await openDb();
+    const t = db.transaction('chunks', 'readonly');
+    const rq = t.objectStore('chunks').getAll(chunkRange(meta.id));
+    await txDone(t);
+    return (rq.result || [])
+      .map(r => ({ seg: r.seg, seq: r.seq, blob: new Blob([r.buf], { type: meta.mimeType }) }))
+      .sort((a, b) => a.seg - b.seg || a.seq - b.seq);
+  }
+
+  async function deleteSession(sid) {
+    mem.delete(sid);
+    try {
+      const db = await openDb();
+      const t = db.transaction(['chunks', 'sessions'], 'readwrite');
+      t.objectStore('chunks').delete(chunkRange(sid));
+      t.objectStore('sessions').delete(sid);
+      await txDone(t);
+    } catch (e) { /* nothing stored to delete */ }
+  }
+
+  function newMeta(mimeType, source) {
+    const now = Date.now();
+    return {
+      id: now.toString(36) + '-' + Math.random().toString(36).slice(2, 8),
+      mimeType, source, startedAt: now, updatedAt: now,
+      durationSec: 0, chunks: 0, bytes: 0, segs: 1
+    };
+  }
+
+  /* ---------- Assembling one audio file ---------- */
+
+  function encodeWav(samples, rate) {
+    const out = new DataView(new ArrayBuffer(44 + samples.length * 2));
+    const tag = (at, s) => { for (let i = 0; i < s.length; i++) out.setUint8(at + i, s.charCodeAt(i)); };
+    tag(0, 'RIFF'); out.setUint32(4, 36 + samples.length * 2, true); tag(8, 'WAVE');
+    tag(12, 'fmt '); out.setUint32(16, 16, true); out.setUint16(20, 1, true); out.setUint16(22, 1, true);
+    out.setUint32(24, rate, true); out.setUint32(28, rate * 2, true);
+    out.setUint16(32, 2, true); out.setUint16(34, 16, true);
+    tag(36, 'data'); out.setUint32(40, samples.length * 2, true);
+    for (let i = 0; i < samples.length; i++) {
+      const v = Math.max(-1, Math.min(1, samples[i]));
+      out.setInt16(44 + i * 2, v < 0 ? v * 0x8000 : v * 0x7fff, true);
+    }
+    return new Blob([out.buffer], { type: 'audio/wav' });
+  }
+
+  // Two recorders make two containers, and a plain join plays only the first.
+  // Decode every part and write one continuous 16 kHz mono WAV.
+  async function mergeSegments(blobs) {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    const OAC = window.OfflineAudioContext || window.webkitOfflineAudioContext;
+    const ctx = new AC();
+    try {
+      const decoded = [];
+      for (const b of blobs) decoded.push(await ctx.decodeAudioData(await b.arrayBuffer()));
+      const rate = 16000;
+      const total = decoded.reduce((n, b) => n + b.duration, 0);
+      const off = new OAC(1, Math.ceil(total * rate), rate);
+      let at = 0;
+      decoded.forEach(b => {
+        const src = off.createBufferSource();
+        src.buffer = b;
+        src.connect(off.destination);
+        src.start(at);
+        at += b.duration;
+      });
+      const rendered = await off.startRendering();
+      return encodeWav(rendered.getChannelData(0), rate);
+    } finally {
+      try { ctx.close(); } catch (e) { /* already closed */ }
+    }
+  }
+
+  async function assemble(c) {
+    if (c.blob) return;
+    const chunks = await loadChunks(c.meta);
+    if (!chunks.length) throw new Error('no audio chunks');
+    const type = c.meta.mimeType || 'audio/webm';
+    const groups = new Map();
+    chunks.forEach(x => {
+      if (!groups.has(x.seg)) groups.set(x.seg, []);
+      groups.get(x.seg).push(x.blob);
+    });
+    const parts = [...groups.values()].map(list => new Blob(list, { type }));
+    if (parts.length === 1) {
+      c.blob = parts[0];
+      c.mime = type;
+    } else {
+      try {
+        c.blob = await mergeSegments(parts);
+        c.mime = 'audio/wav';
+      } catch (e) {
+        c.blob = new Blob(parts, { type });
+        c.mime = type;
+        c.notes.push('பதிவு ' + parts.length + ' பகுதிகளாக உள்ளது, அவற்றை இணைக்க முடியவில்லை. பின்பகுதி விடுபட்டிருக்கலாம். audio-வைக் கேட்டுச் சரிபாருங்கள்.');
+      }
+    }
+    if (c.url) URL.revokeObjectURL(c.url);
+    c.url = URL.createObjectURL(c.blob);
+  }
+
+  function blobToBase64(blob) {
+    return new Promise((resolve, reject) => {
+      const fr = new FileReader();
+      fr.onload = () => { const s = String(fr.result); resolve(s.slice(s.indexOf(',') + 1)); };
+      fr.onerror = () => reject(fr.error);
+      fr.readAsDataURL(blob);
+    });
+  }
+
+  /* ---------- Server ---------- */
+
+  class ApiError extends Error {
+    constructor(kind, text) { super(text); this.kind = kind; }
+  }
+
+  // code BAD_PIN is what Code.gs sends. The wording check must not match its
+  // separate "APP_PIN not set" setup error, which no re-typed PIN can fix.
+  const isPinError = (code, text) => code === 'BAD_PIN' ||
+    /PIN\s*தவறு|தவறான\s*PIN|(wrong|bad|invalid)[\s_-]*pin/i.test(text);
+
+  async function callApi(payload) {
+    if (!/^https:\/\//.test(WEB_APP_URL)) {
+      throw new ApiError('config', 'Web App முகவரி இன்னும் அமைக்கப்படவில்லை.');
+    }
+    const ctl = new AbortController();
+    const guard = setTimeout(() => ctl.abort(), NET_TIMEOUT_MS);
+    let text;
+    try {
+      const resp = await fetch(WEB_APP_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        redirect: 'follow',
+        body: JSON.stringify(payload),
+        signal: ctl.signal
+      });
+      text = await resp.text();
+    } catch (e) {
+      throw new ApiError('network', ctl.signal.aborted
+        ? 'server ' + Math.round(NET_TIMEOUT_MS / 60000) + ' நிமிடத்துக்குள் பதில் தரவில்லை.'
+        : 'இணைய இணைப்பு இல்லை அல்லது server-ஐ அடைய முடியவில்லை.');
+    } finally {
+      clearTimeout(guard);
+    }
+    let data;
+    try { data = JSON.parse(text); } catch (e) {
+      throw new ApiError('server', 'server-இடமிருந்து சரியான பதில் வரவில்லை.');
+    }
+    if (!data || data.ok !== true) {
+      const msg = String((data && data.error) || 'காரணம் தெரியவில்லை');
+      if (isPinError(data && data.code, msg)) throw new ApiError('pin', msg);
+      throw new ApiError('server', 'server பிழை: ' + msg);
+    }
+    return data;
+  }
+
+  function normalisePetition(p) {
+    if (!p || typeof p !== 'object') return null;
+    const s = x => (x === null || x === undefined ? '' : String(x).trim());
+    const list = x => (Array.isArray(x) ? x : (x ? [x] : [])).map(s).filter(Boolean);
+    return { name: s(p.name), ooru: s(p.ooru), phone: s(p.phone), paragraphs: list(p.paragraphs), doubts: list(p.doubts) };
+  }
+
+  /* ---------- Current petition ---------- */
+
+  let cur = null;      // {meta, blob, mime, url, notes, seconds, gemini, petition}
+  let sending = false;
+  let recoverable = [];
+  let save = { state: 'none', serial: null, promise: null };
+
+  function dirty() {
+    return !!rec || sending || (cur && save.state !== 'saved') || recoverable.length > 0 || mem.size > 0;
+  }
+  window.addEventListener('beforeunload', e => {
+    if (dirty()) { e.preventDefault(); e.returnValue = ''; }
+  });
+
+  function openPetition(meta) {
+    return { meta, blob: null, mime: '', url: '', notes: [], seconds: 0, gemini: null, petition: null };
+  }
+
+  function bindPlayer(a) {
+    // Chrome's recorded WebM has no duration until it is sought to the end.
+    a.addEventListener('loadedmetadata', () => {
+      if (a.duration !== Infinity) return;
+      const back = () => { a.removeEventListener('timeupdate', back); a.currentTime = 0; };
+      a.addEventListener('timeupdate', back);
+      a.currentTime = 1e101;
+    });
+  }
+  bindPlayer($('player'));
+  bindPlayer($('errPlayer'));
+
+  let watchTimer = 0;
+  function runWatch(t0) {
+    clearInterval(watchTimer);
+    setText('pWatch', '0.0');
+    watchTimer = setInterval(() => setText('pWatch', ((performance.now() - t0) / 1000).toFixed(1)), 100);
+  }
+
+  async function sendCurrent(t0) {
+    if (sending || !cur) return;
+    sending = true;
+    const c = cur;
+    goto('s-processing');
+    show('pWorking', true);
+    show('pError', false);
+    runWatch(t0);
+    wantWake = true;
+    wakeOn();
+    try {
+      setText('pStatus', 'பதிவைத் தயார் செய்கிறது');
+      await assemble(c);
+      setText('pStatus', 'அனுப்புகிறது, மனு எழுதப்படுகிறது');
+      const audioBase64 = await blobToBase64(c.blob);
+      const res = await callApi({ action: 'transcribe', pin: getPin(), audioBase64, mimeType: c.mime });
+      const petition = normalisePetition(res.petition);
+      if (!petition) throw new ApiError('server', 'server-இடமிருந்து மனு வரவில்லை.');
+      c.seconds = (performance.now() - t0) / 1000;
+      c.gemini = typeof res.geminiSeconds === 'number' ? res.geminiSeconds : null;
+      c.petition = petition;
+      clearInterval(watchTimer);
+      sending = false;
+      save = { state: 'none', serial: null, promise: null };
+      showReview();
+    } catch (e) {
+      clearInterval(watchTimer);
+      sending = false;
+      if (e && e.kind === 'pin') {
+        clearPin();
+        askPin('PIN தவறு. பதிவு பாதுகாப்பாக உள்ளது. சரியான PIN தந்தால் தானாக அனுப்பப்படும்.',
+          () => sendCurrent(performance.now()));
+      } else {
+        showSendError(e);
+      }
+    } finally {
+      wantWake = false;
+      wakeOff();
+    }
+  }
+
+  function showSendError(e) {
+    const known = e && (e.kind === 'network' || e.kind === 'server' || e.kind === 'config');
+    setText('pErrorText', known ? e.message : 'பதிவைத் தயார் செய்ய முடியவில்லை.');
+    goto('s-processing');
+    show('pWorking', false);
+    show('pError', true);
+    const a = $('errPlayer');
+    if (cur && cur.url) { if (a.src !== cur.url) a.src = cur.url; show('errPlayer', true); }
+    else { a.removeAttribute('src'); show('errPlayer', false); }
+    show('btnDownload', !!(cur && cur.blob));
+  }
+
+  $('btnRetry').addEventListener('click', () => sendCurrent(performance.now()));
+
+  $('btnLater').addEventListener('click', () => {
+    if (cur && cur.url) URL.revokeObjectURL(cur.url);
+    $('errPlayer').removeAttribute('src');
+    cur = null;
+    gotoRecord();
+  });
+
+  $('btnDownload').addEventListener('click', () => {
+    if (!cur || !cur.blob) return;
+    const ext = { 'audio/webm': 'webm', 'audio/mp4': 'm4a', 'audio/ogg': 'ogg', 'audio/wav': 'wav', 'audio/mpeg': 'mp3' }[cur.mime] || 'audio';
+    const a = document.createElement('a');
+    a.href = cur.url;
+    a.download = 'lro-audio-' + cur.meta.id + '.' + ext;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  });
+
+  /* ---------- Wake lock ---------- */
+
+  let wake = null;
+  let wantWake = false;
+
+  async function wakeOn() {
+    if (!('wakeLock' in navigator) || document.hidden) return;
+    if (wake && !wake.released) return;
+    try { wake = await navigator.wakeLock.request('screen'); } catch (e) { /* not granted */ }
+  }
+  function wakeOff() {
+    if (wake) { try { wake.release(); } catch (e) { /* already gone */ } }
+    wake = null;
+  }
+
+  /* ---------- Recording ---------- */
+
+  let rec = null;
+  let audioCtx = null;
+  let analyser = null;
+  let meterSource = null;
+  let tick = 0;
+  let quietMs = 0;
+  const levelData = new Uint8Array(1024);
+
+  const ALARMS = {
+    track: 'மைக் துண்டிக்கப்பட்டது',
+    mute: 'மைக்கில் ஒலி வரவில்லை',
+    error: 'பதிவில் பிழை ஏற்பட்டது',
+    pause: 'பதிவு இடைநின்றது',
+    stop: 'பதிவு நின்றுவிட்டது',
+    hidden: 'பக்கம் மறைந்தது'
+  };
+
+  function pickMime() {
+    if (!window.MediaRecorder || !MediaRecorder.isTypeSupported) return '';
+    return ['audio/webm;codecs=opus', 'audio/mp4', 'audio/ogg;codecs=opus']
+      .find(t => MediaRecorder.isTypeSupported(t)) || '';
+  }
+
+  function elapsedMs(r) {
+    return r.accMs + (r.segStart ? performance.now() - r.segStart : 0);
+  }
+  function freezeClock(r) {
+    if (r.segStart) { r.accMs += performance.now() - r.segStart; r.segStart = 0; }
+  }
+
+  function recLive(r) {
+    const t = r.stream && r.stream.getAudioTracks()[0];
+    return !!(r.recorder && r.recorder.state === 'recording' && t && t.readyState === 'live' && !t.muted);
+  }
+
+  function raiseAlarm(r, kind) {
+    if (rec !== r || r.stopping) return;
+    if (!r.alarm) r.alarm = kind;
+    r.notes = r.notes || [];
+    if (!r.hadAlarm) {
+      r.hadAlarm = true;
+      r.notes.push('பதிவின் நடுவே தடை ஏற்பட்டது. audio-வைக் கேட்டுச் சரிபாருங்கள்.');
+    }
+    renderAlarm();
+  }
+
+  function renderAlarm() {
+    const r = rec;
+    show('alarm', !!(r && r.alarm));
+    if (!r) return;
+    const live = recLive(r);
+    show('btnStop', !r.alarm);
+    $('timer').classList.toggle('frozen', !live);
+    if (!r.alarm) return;
+    const parts = 'இதுவரை பதிவான ' + mmss(elapsedMs(r) / 1000) + ' பாதுகாப்பாக உள்ளது. ';
+    setText('alarmTitle', ALARMS[r.alarm]);
+    setText('alarmBody', parts + (live ? 'பதிவு இன்னும் நடக்கிறது.' : 'பதிவு இப்போது நடக்கவில்லை.'));
+    setText('btnContinue', live ? 'சரி, பதிவு தொடரட்டும்' : 'பதிவைத் தொடர்');
+  }
+
+  async function getMic() {
+    return navigator.mediaDevices.getUserMedia({
+      audio: { channelCount: 1, echoCancellation: true, noiseSuppression: true, autoGainControl: true }
+    });
+  }
+
+  function micErrorText(e) {
+    const n = e && e.name;
+    if (n === 'NotAllowedError' || n === 'SecurityError') return 'மைக் அனுமதி கிடைக்கவில்லை. உலாவி அமைப்பில் மைக்கை அனுமதித்து மறுபடி முயலுங்கள், அல்லது audio file ஏற்றுங்கள்.';
+    if (n === 'NotFoundError' || n === 'OverconstrainedError') return 'இந்தக் கருவியில் மைக் கிடைக்கவில்லை. audio file ஏற்றுங்கள்.';
+    if (n === 'NotReadableError') return 'மைக்கை வேறு செயலி பயன்படுத்துகிறது. அதை மூடிவிட்டு மறுபடி முயலுங்கள்.';
+    return 'பதிவைத் தொடங்க முடியவில்லை. audio file ஏற்றுங்கள்.';
+  }
+
+  function startMeter(stream) {
+    try {
+      if (!audioCtx) return;
+      if (meterSource) meterSource.disconnect();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      meterSource = audioCtx.createMediaStreamSource(stream);
+      if (!analyser) {
+        analyser = audioCtx.createAnalyser();
+        analyser.fftSize = 1024;
+        const mute = audioCtx.createGain();
+        mute.gain.value = 0;
+        analyser.connect(mute);
+        mute.connect(audioCtx.destination);
+      }
+      meterSource.connect(analyser);
+    } catch (e) { analyser = null; }
+  }
+
+  function readLevel() {
+    if (!analyser) return -1;
+    analyser.getByteTimeDomainData(levelData);
+    let sum = 0;
+    for (let i = 0; i < levelData.length; i++) { const v = (levelData[i] - 128) / 128; sum += v * v; }
+    return Math.sqrt(sum / levelData.length);
+  }
+
+  function onTick(dt) {
+    const r = rec;
+    if (!r) return;
+    setText('timerText', mmss(elapsedMs(r) / 1000));
+    const level = recLive(r) ? readLevel() : -1;
+    if (level >= 0) {
+      $('meterBar').style.width = Math.min(100, Math.sqrt(level) * 170) + '%';
+      quietMs = level < 0.004 ? quietMs + dt : 0;
+      setText('silentHint', quietMs > 6000 ? 'ஒலி கேட்கவில்லை. மைக்கைப் பாருங்கள்.' : '');
+    } else {
+      $('meterBar').style.width = '0';
+    }
+    // Some browsers end a track without firing any event.
+    if (!r.alarm && !recLive(r) && r.recorder && !r.stopping) {
+      const t = r.stream && r.stream.getAudioTracks()[0];
+      raiseAlarm(r, r.recorder.state === 'paused' ? 'pause' : (t && t.muted ? 'mute' : 'stop'));
+    }
+    if (r.alarm) renderAlarm();
+  }
+
+  function storeChunk(r, seg, blob) {
+    const seq = r.seq++;
+    const m = r.meta;
+    mem.get(m.id).chunks.push({ seg, seq, blob });
+    m.chunks += 1;
+    m.bytes += blob.size;
+    m.segs = seg + 1;
+    m.updatedAt = Date.now();
+    m.durationSec = Math.round(elapsedMs(r) / 1000);
+    const p = persistChunk({ ...m }, seg, seq, blob).finally(() => r.writes.delete(p));
+    r.writes.add(p);
+  }
+
+  function beginSegment(r, stream) {
+    r.stream = stream;
+    const seg = r.seg;
+    const mime = r.mime;
+    const opts = { audioBitsPerSecond: 32000 };
+    if (mime) opts.mimeType = mime;
+    const recorder = new MediaRecorder(stream, opts);
+
+    stream.getAudioTracks().forEach(t => {
+      t.addEventListener('ended', () => { if (r.stream === stream) raiseAlarm(r, 'track'); });
+      t.addEventListener('mute', () => { if (r.stream === stream) raiseAlarm(r, 'mute'); });
+      t.addEventListener('unmute', () => { if (r.stream === stream) renderAlarm(); });
+    });
+
+    recorder.ondataavailable = e => { if (e.data && e.data.size) storeChunk(r, seg, e.data); };
+    recorder.onerror = () => raiseAlarm(r, 'error');
+    recorder.onpause = () => { freezeClock(r); raiseAlarm(r, 'pause'); };
+    recorder.onresume = () => { if (!r.segStart) r.segStart = performance.now(); renderAlarm(); };
+    recorder.onstop = () => {
+      freezeClock(r);
+      if (r.onStopped) { const done = r.onStopped; r.onStopped = null; done(); }
+      else if (r.recorder === recorder) raiseAlarm(r, 'stop');
+    };
+
+    recorder.start(5000);
+    r.recorder = recorder;
+    r.segStart = performance.now();
+    if (!r.meta.mimeType) r.meta.mimeType = baseMime(recorder.mimeType) || 'audio/webm';
+    startMeter(stream);
+  }
+
+  function endStream(r) {
+    if (r.stream) r.stream.getTracks().forEach(t => { try { t.stop(); } catch (e) { /* gone */ } });
+  }
+
+  function flushRecorder() {
+    const r = rec;
+    if (r && r.recorder && r.recorder.state === 'recording') {
+      try { r.recorder.requestData(); } catch (e) { /* stopping */ }
+    }
+  }
+
+  async function startRecording() {
+    show('recMsg', false);
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.MediaRecorder) {
+      setText('recMsg', 'இந்த உலாவியில் பதிவு செய்ய முடியாது. Chrome அல்லது Safari-ஐப் பயன்படுத்துங்கள், அல்லது audio file ஏற்றுங்கள்.');
+      show('recMsg', true);
+      return;
+    }
+    // Created inside the tap: iOS keeps an AudioContext suspended otherwise.
+    try {
+      if (!audioCtx) {
+        const AC = window.AudioContext || window.webkitAudioContext;
+        audioCtx = new AC();
+      }
+    } catch (e) { audioCtx = null; }
+
+    $('btnRecord').disabled = true;
+    let stream;
+    try {
+      stream = await getMic();
+    } catch (e) {
+      $('btnRecord').disabled = false;
+      setText('recMsg', micErrorText(e));
+      show('recMsg', true);
+      return;
+    }
+
+    const mime = pickMime();
+    const meta = newMeta(baseMime(mime), 'mic');
+    const r = {
+      meta, mime, stream: null, recorder: null, seg: 0, seq: 0, accMs: 0, segStart: 0,
+      alarm: null, hadAlarm: false, notes: [], stopping: false, onStopped: null,
+      writes: new Set(), startedAt: performance.now()
+    };
+    mem.set(meta.id, { meta, chunks: [] });
+    rec = r;
+    try {
+      beginSegment(r, stream);
+    } catch (e) {
+      rec = null;
+      mem.delete(meta.id);
+      endStream(r);
+      $('btnRecord').disabled = false;
+      setText('recMsg', micErrorText(e));
+      show('recMsg', true);
+      return;
+    }
+
+    quietMs = 0;
+    wantWake = true;
+    wakeOn();
+    show('idle', false);
+    show('recoverBox', false);
+    show('live', true);
+    setText('timerText', '00:00');
+    renderAlarm();
+    let last = performance.now();
+    tick = setInterval(() => { const n = performance.now(); onTick(n - last); last = n; }, 100);
+  }
+
+  async function continueRecording() {
+    const r = rec;
+    if (!r) return;
+    if (recLive(r)) { r.alarm = null; renderAlarm(); return; }
+    const old = r.recorder;
+    const t = r.stream && r.stream.getAudioTracks()[0];
+    if (old && old.state === 'paused' && t && t.readyState === 'live' && !t.muted) {
+      old.resume();
+      r.alarm = null;
+      renderAlarm();
+      return;
+    }
+    // The old recorder cannot be revived, so a new part starts.
+    $('btnContinue').disabled = true;
+    try {
+      if (old && old.state !== 'inactive') {
+        await new Promise(res => {
+          r.onStopped = res;
+          try { old.stop(); } catch (e) { r.onStopped = null; res(); }
+          setTimeout(res, 3000);
+        });
+      }
+      endStream(r);
+      const stream = await getMic();
+      r.seg += 1;
+      beginSegment(r, stream);
+      r.alarm = null;
+      wakeOn();
+    } catch (e) {
+      setText('alarmBody', micErrorText(e) + ' இதுவரை பதிவானதை அனுப்ப "முடித்து அனுப்பு" அழுத்துங்கள்.');
+      $('btnContinue').disabled = false;
+      return;
+    }
+    $('btnContinue').disabled = false;
+    renderAlarm();
+  }
+
+  async function stopRecording() {
+    const r = rec;
+    if (!r || r.stopping) return;
+    const t0 = performance.now();
+    if (!r.alarm && t0 - r.startedAt < 1500) return;   // a double tap on Record must not end it
+    r.stopping = true;
+    clearInterval(tick);
+    show('alarm', false);
+    show('live', false);
+    show('idle', true);
+    $('btnRecord').disabled = false;
+
+    cur = openPetition(r.meta);
+    cur.notes = r.notes;
+    goto('s-processing');
+    show('pWorking', true);
+    show('pError', false);
+    setText('pStatus', 'பதிவை முடிக்கிறது');
+    runWatch(t0);
+
+    const recorder = r.recorder;
+    if (recorder && recorder.state !== 'inactive') {
+      await new Promise(res => {
+        r.onStopped = res;
+        try { recorder.stop(); } catch (e) { r.onStopped = null; res(); }
+        setTimeout(res, 4000);   // a recorder that never reports stop must not block sending
+      });
+    }
+    endStream(r);
+    await Promise.allSettled([...r.writes]);
+    r.meta.durationSec = Math.round(elapsedMs(r) / 1000);
+    rec = null;
+    wantWake = false;
+    wakeOff();
+
+    if (!r.meta.chunks) {
+      await deleteSession(r.meta.id);
+      cur = null;
+      clearInterval(watchTimer);
+      gotoRecord();
+      setText('recMsg', 'ஒலி எதுவும் பதிவாகவில்லை. மறுபடி பதிவு செய்யுங்கள்.');
+      show('recMsg', true);
+      return;
+    }
+    await persistMeta({ ...r.meta });
+    sendCurrent(t0);
+  }
+
+  $('btnRecord').addEventListener('click', startRecording);
+  $('btnStop').addEventListener('click', stopRecording);
+  $('btnContinue').addEventListener('click', continueRecording);
+  $('btnFinish').addEventListener('click', stopRecording);
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      if (rec) { flushRecorder(); raiseAlarm(rec, 'hidden'); }
+    } else {
+      if (wantWake) wakeOn();
+      if (rec) renderAlarm();
+    }
+  });
+  window.addEventListener('pagehide', flushRecorder);
+
+  /* ---------- Audio file ---------- */
+
+  const EXT_MIME = {
+    opus: 'audio/ogg', ogg: 'audio/ogg', oga: 'audio/ogg', mp3: 'audio/mpeg', m4a: 'audio/mp4',
+    mp4: 'audio/mp4', aac: 'audio/aac', wav: 'audio/wav', webm: 'audio/webm', flac: 'audio/flac'
+  };
+
+  function fileMime(file) {
+    const ext = (file.name.split('.').pop() || '').toLowerCase();
+    return EXT_MIME[ext] || baseMime(file.type) || 'audio/ogg';
+  }
+
+  function probeDuration(blob) {
+    return new Promise(resolve => {
+      const a = document.createElement('audio');
+      const url = URL.createObjectURL(blob);
+      const end = v => { URL.revokeObjectURL(url); resolve(v); };
+      a.preload = 'metadata';
+      a.onloadedmetadata = () => end(Number.isFinite(a.duration) ? Math.round(a.duration) : 0);
+      a.onerror = () => end(0);
+      a.src = url;
+      setTimeout(() => end(0), 3000);
+    });
+  }
+
+  $('btnFile').addEventListener('click', () => $('fileInput').click());
+  $('fileInput').addEventListener('change', async e => {
+    const file = e.target.files && e.target.files[0];
+    e.target.value = '';
+    if (!file) return;
+    show('recMsg', false);
+    const t0 = performance.now();
+    const mimeType = fileMime(file);
+    const blob = new Blob([file], { type: mimeType });
+    const meta = newMeta(mimeType, 'file');
+    meta.chunks = 1;
+    meta.bytes = blob.size;
+    mem.set(meta.id, { meta, chunks: [{ seg: 0, seq: 0, blob }] });
+    cur = openPetition(meta);
+    const stored = persistChunk({ ...meta }, 0, 0, blob);
+    probeDuration(blob).then(sec => { meta.durationSec = sec; return stored; }).then(() => persistMeta({ ...meta }));
+    sendCurrent(t0);
+  });
+
+  /* ---------- Recovery after a reload ---------- */
+
+  function clockText(ms) {
+    const d = new Date(ms);
+    return todayStr(d) + ', ' + pad(d.getHours()) + ':' + pad(d.getMinutes());
+  }
+
+  async function refreshRecover() {
+    const box = $('recoverBox');
+    recoverable = (await listSessions()).filter(m => !(cur && cur.meta.id === m.id) && !(rec && rec.meta.id === m.id));
+    box.textContent = '';
+    show('recoverBox', recoverable.length > 0 && !rec);
+    recoverable.forEach(m => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      const title = document.createElement('b');
+      title.textContent = 'அனுப்பப்படாத பதிவு உள்ளது';
+      const info = document.createElement('p');
+      info.textContent = clockText(m.startedAt) + ' மணிக்குப் பதிவு, நீளம் ' + mmss(m.durationSec || 0);
+      const row = document.createElement('div');
+      row.className = 'btn-row';
+      const send = document.createElement('button');
+      send.type = 'button';
+      send.className = 'btn primary';
+      send.textContent = 'மீட்டு அனுப்பு';
+      send.addEventListener('click', () => {
+        cur = openPetition(m);
+        sendCurrent(performance.now());
+      });
+      const drop = document.createElement('button');
+      drop.type = 'button';
+      drop.className = 'btn';
+      drop.textContent = 'நீக்கு';
+      drop.addEventListener('click', async () => {
+        if (!window.confirm('இந்தப் பதிவை நிரந்தரமாக நீக்கவா? மீட்க முடியாது.')) return;
+        await deleteSession(m.id);
+        refreshRecover();
+      });
+      row.append(send, drop);
+      card.append(title, info, row);
+      box.appendChild(card);
+    });
+  }
+
+  function gotoRecord() {
+    goto('s-record');
+    show('idle', !rec);
+    show('live', !!rec);
+    refreshRecover();
+  }
+
+  /* ---------- Review ---------- */
+
+  const v = id => $(id).value.trim();
+
+  function autoGrow(t) {
+    t.style.height = 'auto';
+    t.style.height = t.scrollHeight + 4 + 'px';
+  }
+
+  function collect() {
+    return {
+      name: v('fName'), ooru: v('fOoru'), phone: v('fPhone'), date: v('fDate'), idam: v('fIdam'),
+      paragraphs: [...$('rvParas').querySelectorAll('textarea')].map(t => t.value.trim()).filter(Boolean),
+      doubts: cur ? cur.petition.doubts : []
+    };
+  }
+
+  function showReview() {
+    const c = cur;
+    const p = c.petition;
+    $('fName').value = p.name;
+    $('fOoru').value = p.ooru;
+    $('fPhone').value = p.phone;
+    $('fDate').value = todayStr();
+    $('fIdam').value = '';
+
+    const box = $('rvParas');
+    box.textContent = '';
+    const texts = p.paragraphs.length ? p.paragraphs : [''];
+    texts.forEach((text, i) => {
+      const lab = document.createElement('label');
+      lab.className = 'f';
+      lab.textContent = 'விவரம்: பத்தி ' + (i + 1);
+      const ta = document.createElement('textarea');
+      ta.rows = 3;
+      ta.value = text;
+      lab.appendChild(ta);
+      box.appendChild(lab);
+    });
+
+    const notes = c.notes.slice();
+    if (!p.paragraphs.length) notes.push('மனுவுக்கான உரை எதுவும் வரவில்லை. audio-வைக் கேட்டு நீங்களே எழுதுங்கள்.');
+    const doubts = notes.concat(p.doubts);
+    const ul = $('rvDoubtList');
+    ul.textContent = '';
+    doubts.forEach(d => {
+      const li = document.createElement('li');
+      li.textContent = d;
+      ul.appendChild(li);
+    });
+    show('rvDoubts', doubts.length > 0);
+
+    let t = 'Stop-ல் இருந்து ' + c.seconds.toFixed(1) + ' நொடி';
+    if (c.gemini !== null) t += ' (Gemini ' + c.gemini.toFixed(1) + ' நொடி)';
+    setText('rvTime', t);
+    show('rvSavedNote', false);
+
+    const a = $('player');
+    a.src = c.url;
+    goto('s-review');
+    box.querySelectorAll('textarea').forEach(autoGrow);
+    checkPages();
+  }
+
+  let pageCheck = 0;
+  $('s-review').addEventListener('input', e => {
+    if (e.target.tagName === 'TEXTAREA') autoGrow(e.target);
+    clearTimeout(pageCheck);
+    pageCheck = setTimeout(checkPages, 250);
+    if (save.state === 'saved') {
+      setText('rvSavedNote', 'மனு எண் ' + save.serial + ' ஏற்கெனவே சேமிக்கப்பட்டது. இப்போது செய்யும் மாற்றம் அச்சில் மட்டும் வரும்.');
+      show('rvSavedNote', true);
+    }
+  });
+
+  /* ---------- Letter ---------- */
+
+  function line(cls, text) {
+    const d = document.createElement('div');
+    if (cls) d.className = cls;
+    d.textContent = text;
+    return d;
+  }
+
+  function labelled(label, value) {
+    const d = document.createElement('div');
+    const b = document.createElement('b');
+    b.textContent = label;
+    d.append(b, ' ' + value);
+    return d;
+  }
+
+  // split: {head, tail} cuts the last paragraph on a line boundary. The tail
+  // sits in the same unbreakable block as the signature, which is what keeps
+  // the two together in Safari as well as Chrome.
+  function buildLetter(root, d, split) {
+    root.textContent = '';
+    root.appendChild($('tplHead').content.cloneNode(true));
+    root.querySelector('.lh-logo').src = LOGO;
+
+    const parties = document.createElement('div');
+    parties.className = 'lt-parties';
+    const from = document.createElement('div');
+    from.className = 'lt-from';
+    from.appendChild(line('lt-h', 'அனுப்புநர்:'));
+    if (d.name) from.appendChild(line('lt-ind', d.name));
+    if (d.ooru) from.appendChild(line('lt-ind', 'ஊர்: ' + d.ooru));
+    if (d.phone) from.appendChild(line('lt-ind', 'கைபேசி: ' + d.phone));
+    const to = document.createElement('div');
+    to.className = 'lt-to';
+    to.appendChild(line('lt-h', 'பெறுநர்:'));
+    to.appendChild(line('lt-ind', 'சட்ட உரிமைகள் கழகம்'));
+    if (d.date) to.appendChild(labelled('நாள்:', d.date));
+    if (d.idam) to.appendChild(labelled('இடம்:', d.idam));
+    parties.append(from, to);
+    root.appendChild(parties);
+
+    const req = document.createElement('p');
+    req.className = 'lt-req';
+    const reqLabel = document.createElement('b');
+    reqLabel.textContent = 'வேண்டுகோள்:';
+    req.append(reqLabel, ' என்னுடைய இந்தப் பிரச்சனையைப் பார்த்து, உரிய தீர்வு காண உதவும்படி வேண்டுகிறேன்.');
+    root.appendChild(req);
+
+    root.appendChild(line('lt-h lt-detail', 'விவரம்:'));
+
+    const para = (text, extra) => {
+      const p = document.createElement('p');
+      p.className = 'lt-p' + (extra ? ' ' + extra : '');
+      p.textContent = text;
+      return p;
+    };
+    const paras = d.paragraphs;
+    const body = paras.slice(0, Math.max(0, paras.length - 1));
+    body.forEach(t => root.appendChild(para(t)));
+
+    const keep = document.createElement('div');
+    keep.className = 'lt-keep';
+    if (paras.length) {
+      const last = paras[paras.length - 1];
+      if (split) {
+        root.appendChild(para(split.head, 'joined'));
+        keep.appendChild(para(split.tail));
+      } else {
+        keep.appendChild(para(last));
+      }
+    }
+
+    const sig = document.createElement('div');
+    sig.className = 'lt-sig';
+    sig.appendChild(line('lt-small', 'இப்படிக்கு,'));
+    sig.appendChild(line('lt-gap', ''));
+    sig.appendChild(line('lt-line', ''));
+    if (d.name) sig.appendChild(line('lt-signame', d.name));
+    sig.appendChild(line('lt-small', '(கையொப்பம்)'));
+    keep.appendChild(sig);
+    root.appendChild(keep);
+  }
+
+  const lineHeightOf = el => parseFloat(getComputedStyle(el).lineHeight) || 1;
+  const lineCount = (el, h) => Math.round(el.getBoundingClientRect().height / h);
+
+  // Finds where the last LAST_LINES_KEPT lines of a measured paragraph begin.
+  function findSplit(p, text) {
+    const node = p.firstChild;
+    if (!node) return null;
+    const h = lineHeightOf(p);
+    const lines = lineCount(p, h);
+    if (lines <= SHORT_LAST_PARA) return null;
+    const top = p.getBoundingClientRect().top;
+    const words = [];
+    const re = /\S+/g;
+    let m;
+    while ((m = re.exec(node.data))) words.push(m.index);
+    const lineOf = off => {
+      const r = document.createRange();
+      r.setStart(node, off);
+      r.setEnd(node, Math.min(off + 1, node.length));
+      return Math.floor((r.getBoundingClientRect().top - top + h * 0.3) / h);
+    };
+    const want = lines - LAST_LINES_KEPT;
+    let lo = 0, hi = words.length - 1, at = -1;
+    while (lo <= hi) {
+      const mid = (lo + hi) >> 1;
+      if (lineOf(words[mid]) >= want) { at = mid; hi = mid - 1; } else lo = mid + 1;
+    }
+    if (at <= 0) return null;
+    return { head: text.slice(0, words[at]).trimEnd(), tail: text.slice(words[at]) };
+  }
+
+  // Follows the browser's own page breaking: unbreakable blocks stay whole,
+  // and no break leaves a single line of a paragraph alone.
+  function countPages(root) {
+    const limit = PAGE_MM * 96 / 25.4 - 1;
+    const atoms = [];
+    let heading = false;
+    [...root.children].forEach(el => {
+      const box = el.getBoundingClientRect();
+      if (el.classList.contains('lt-p')) {
+        const h = lineHeightOf(el);
+        const n = lineCount(el, h);
+        for (let i = 0; i < n; i++) {
+          atoms.push({
+            top: box.top + i * h, bottom: box.top + (i + 1) * h,
+            canBreakBefore: !(i === 1 || (i === n - 1 && n > 1) || (i === 0 && heading))
+          });
+        }
+        heading = false;
+      } else {
+        atoms.push({ top: box.top, bottom: box.bottom, canBreakBefore: !heading });
+        heading = el.classList.contains('lt-detail');
+      }
+    });
+    let pages = 1;
+    let pageTop = atoms[0].top;
+    for (let i = 0; i < atoms.length; i++) {
+      if (atoms[i].bottom - pageTop <= limit) continue;
+      let at = i;
+      while (at > 0 && !atoms[at].canBreakBefore && atoms[at - 1].top > pageTop) at--;
+      pages += 1;
+      pageTop = atoms[at].top;
+      i = at;
+    }
+    return pages;
+  }
+
+  function layoutLetter(d) {
+    const root = $('measure');
+    buildLetter(root, d, null);
+    let split = null;
+    const kept = root.querySelector('.lt-keep .lt-p');
+    if (kept) {
+      split = findSplit(kept, d.paragraphs[d.paragraphs.length - 1]);
+      if (split) buildLetter(root, d, split);
+    }
+    return { split, pages: countPages(root) };
+  }
+
+  function checkPages() {
+    if (!cur || !cur.petition) return 1;
+    const { pages } = layoutLetter(collect());
+    const over = pages > MAX_PAGES;
+    const msg = 'இந்த மனு ' + pages + ' பக்கம் வருகிறது. அதிகபட்சம் ' + MAX_PAGES + ' பக்கம்.';
+    setText('rvOverTitle', msg);
+    show('rvOver', over);
+    setText('lOver', msg + ' திருத்து அழுத்திச் சுருக்குங்கள்.');
+    show('lOver', over);
+    setText('rvPages', 'அச்சில் ' + pages + ' பக்கம்');
+    $('rvPages').classList.toggle('err', over);
+    return pages;
+  }
+
+  function fitSheet() {
+    const wrap = $('sheetWrap');
+    const l = $('letter');
+    if ($('s-letter').hidden) return;
+    const s = Math.min(1, wrap.clientWidth / l.offsetWidth);
+    l.style.setProperty('--s', s);
+    wrap.style.height = Math.ceil(l.offsetHeight * s) + 'px';
+  }
+  window.addEventListener('resize', () => {
+    fitSheet();
+    if (!$('s-review').hidden) $('rvParas').querySelectorAll('textarea').forEach(autoGrow);
+  });
+
+  function renderLetter() {
+    const d = collect();
+    const { split } = layoutLetter(d);
+    buildLetter($('letter'), d, split);
+    fitSheet();
+  }
+
+  function fontsReady() {
+    if (!document.fonts) return Promise.resolve();
+    const faces = ['400 16px "Noto Sans Tamil"', '700 16px "Noto Sans Tamil"', '700 24px "Noto Serif Tamil"'];
+    const load = Promise.all(faces.map(f => document.fonts.load(f, 'தமிழ் Aa1').catch(() => null)))
+      .then(() => document.fonts.ready);
+    return Promise.race([load, wait(4000)]);
+  }
+
+  function refreshSaveView() {
+    const saved = save.state === 'saved';
+    show('lSaved', saved);
+    if (saved) setText('lSaved', 'சேமிக்கப்பட்டது: மனு எண் ' + save.serial);
+    show('lSaveFail', save.state === 'failed');
+    show('btnPrintNoWait', false);
+    const b = $('btnPrint');
+    b.disabled = save.state === 'saving';
+    b.textContent = save.state === 'saving' ? 'சேமிக்கிறது' : 'அச்சிடு / PDF';
+  }
+
+  $('btnPreview').addEventListener('click', () => {
+    goto('s-letter');
+    renderLetter();
+    checkPages();
+    refreshSaveView();
+  });
+
+  $('btnEdit').addEventListener('click', () => {
+    goto('s-review');
+    $('rvParas').querySelectorAll('textarea').forEach(autoGrow);
+    checkPages();
+  });
+
+  // Runs the save a single time. A failed attempt may be repeated by the
+  // volunteer; once a serial has come back nothing is sent again.
+  function saveOnce() {
+    const s = save;
+    if (s.state === 'saved') return Promise.resolve(true);
+    if (s.state === 'saving') return s.promise;
+    const c = cur;
+    const body = {
+      action: 'save',
+      pin: getPin(),
+      petition: collect(),
+      durationSec: Math.round(c.meta.durationSec || 0),
+      totalSeconds: Math.round(c.seconds * 10) / 10
+    };
+    s.state = 'saving';
+    refreshSaveView();
+    const slow = setTimeout(() => { if (s === save && s.state === 'saving') show('btnPrintNoWait', true); }, 20000);
+    s.promise = callApi(body).then(res => {
+      s.state = 'saved';
+      s.serial = res.serial;
+      // The text is on the server now, so the stored audio has done its job.
+      deleteSession(c.meta.id);
+      return true;
+    }).catch(e => {
+      if (e && e.kind === 'pin') {
+        s.state = 'none';
+        return 'pin';
+      }
+      s.state = 'failed';
+      if (s !== save) return false;
+      setText('lSaveFailText', (e && e.message ? e.message + ' ' : '') + 'மனு அச்சிடலாம், ஆனால் Sheet-ல் சேராது.');
+      return false;
+    }).finally(() => { clearTimeout(slow); if (s === save) refreshSaveView(); });
+    return s.promise;
+  }
+
+  let printing = false;
+  async function printNow() {
+    if (printing) return;
+    printing = true;
+    const name = v('fName').replace(/[\\/:*?"<>|]/g, ' ');
+    document.title = 'மனு' + (save.serial ? ' ' + save.serial : '') + (name ? ' ' + name : '');
+        await fontsReady();
+    printing = false;
+    window.print();
+  }
+
+  async function saveThenPrint() {
+    const result = await saveOnce();
+    if (result === 'pin') {
+      clearPin();
+      askPin('PIN தவறு. சரியான PIN தந்தால் மனு சேமிக்கப்படும்.', () => {
+        goto('s-letter');
+        fitSheet();
+        saveThenPrint();
+      });
+      return;
+    }
+    if (result === true) await printNow();
+  }
+
+  $('btnPrint').addEventListener('click', saveThenPrint);
+  $('btnSaveRetry').addEventListener('click', saveThenPrint);
+  $('btnPrintAnyway').addEventListener('click', printNow);
+  $('btnPrintNoWait').addEventListener('click', printNow);
+
+  $('btnNew').addEventListener('click', async () => {
+    if (save.state !== 'saved' && !window.confirm('இந்த மனு இன்னும் சேமிக்கப்படவில்லை. நீக்கிவிட்டுப் புதிய மனு தொடங்கவா?')) return;
+    const c = cur;
+    if (c) {
+      if (c.url) URL.revokeObjectURL(c.url);
+      await deleteSession(c.meta.id);
+    }
+    cur = null;
+    save = { state: 'none', serial: null, promise: null };
+    ['player', 'errPlayer'].forEach(id => { $(id).pause(); $(id).removeAttribute('src'); $(id).load(); });
+    ['fName', 'fOoru', 'fPhone', 'fDate', 'fIdam'].forEach(id => { $(id).value = ''; });
+    $('rvParas').textContent = '';
+    $('rvDoubtList').textContent = '';
+    $('letter').textContent = '';
+    $('measure').textContent = '';
+    gotoRecord();
+  });
+
+  /* ---------- Start ---------- */
+
+  const APP_TITLE = document.title;
+  window.addEventListener('afterprint', () => { document.title = APP_TITLE; });
+
+  $('favicon').href = LOGO;
+  $('headLogo').src = LOGO;
+
+  try {
+    if (navigator.storage && navigator.storage.persist) navigator.storage.persist();
+  } catch (e) { /* optional */ }
+
+  if (document.fonts) {
+    fontsReady().then(() => {
+      if (!$('s-review').hidden) checkPages();
+      if (!$('s-letter').hidden) { renderLetter(); checkPages(); }
+    });
+  }
+
+  if (getPin()) gotoRecord(); else askPin();
+})();
+</script>
+</body>
+</html>
